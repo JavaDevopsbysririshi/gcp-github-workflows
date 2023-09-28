@@ -59,12 +59,12 @@ jobs:
            shell:  bash
 
           - name : Cleanup commit message file
-           run     :  rm commit_message.txt
-  terraform_apply:
-    - name: Check if pull request is merged into main
-      if: >-
-        github.event.pull_request.merged == true && github.ref ==
-        'refs/heads/main'
-      run: |
-        uses : ./.github/workflows/apply.yml
-        echo "Pull request was merged into the main branch"
+            run     :  rm commit_message.txt
+    
+   terraform-apply:
+    # Check if pull request is merged into main
+        if: github.event.pull_request.merged == true && github.ref =='refs/heads/main'
+          - name:test1
+            uses: ./.github/workflows/apply.yml
+    
+      echo "Pull request was merged into the main branch"
