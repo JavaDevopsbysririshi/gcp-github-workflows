@@ -13,9 +13,7 @@ on:
     - '**'
     pull_request:
       branches: -'**'
-
-
-  Jobs:
+Jobs:
     #  This workflow contains a single  job called "build"
     terraform-plan:
     # This type of runner that the job will run on
@@ -71,8 +69,3 @@ on:
       run: |
         uses : ./.github/workflows/apply.yml
         echo "Pull request was merged into the main branch"
-
-
-
-
-    
