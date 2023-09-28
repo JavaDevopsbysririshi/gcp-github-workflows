@@ -1,4 +1,3 @@
-
 ###   terraform_gcp_pipelines_folders-organization-dry-run/.github/workflows/plan.yml
 
 # This is a basic workflow to help you get started with actions
@@ -15,7 +14,7 @@ on:
       branches: -'**'
 
 
-  Jobs:
+jobs:
     #  This workflow contains a single  job called "build"
     terraform-plan:
     # This type of runner that the job will run on
@@ -40,8 +39,6 @@ on:
         else
              echo "Perform not  found in commit mesaage"
         fi
-
-
          if   echo  "$COMMIT_MESSAGE"  |  grep -oP      ' Path : \s*\K[^ ]* '  ;     then
              echo "Perform task found in commit message"
         PATH = $ ( echo "$COMMIT_MESSAGE"    |   grep -oP    'Path : \s*\K[^ ]*'      )
@@ -50,20 +47,16 @@ on:
         else
              echo "path not  found in commit mesaage"
          fi
-
         -name : execute script for plan
          run :   |
              chmod +x  ./.github/script/execute.sh
-
              ./.github/script/execute.sh \
              --session-name "${{ github.actor    }}" \
              --path_val  "${{    env.path_val    }}"     \
              --help
          shell:  bash
-
         - name : Cleanup commit message file
          run     :  rm commit_message.txt
-
     terraform_apply:
     - name: Check if pull request is merged into main
       # The type of runner that the job will run on
@@ -71,8 +64,3 @@ on:
       run: |
         uses : ./.github/workflows/apply.yml
         echo "Pull request was merged into the main branch"
-
-
-
-
-    
