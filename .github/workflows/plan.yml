@@ -1,71 +1,70 @@
-
-###   terraform_gcp_pipelines_folders-organization-dry-run/.github/workflows/plan.yml
-
-# This is a basic workflow to help you get started with actions
 name: GCP-Foundation
-
-#  Controls when the workflow run
-on:
-  # triggers the workflow on push or pull request events but only for the    "main "  branch
-
+'on':
   push:
     branches:
-    - '**'
-    pull_request:
-      branches: -'**'
-Jobs:
-    #  This workflow contains a single  job called "build"
-    terraform-plan:
-    # This type of runner that the job will run on
-    run-on: [self-hosted, gcp-runner]
-    steps:
-    - name: checkout the code
-      uses: actions/checkout@v2
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+jobs:
+   terraform-plan:
+      run-on: ubuntu-latest
+      steps:
+      - name: checkout the code
+        uses: actions/checkout@v2
+      - name: Set Commit Message
+        id: commit_message
+        run: 'echo "${{  github.event.head.commit.message}}"  > commit_message.txt'
+      - name: check commit message
+        id: check_commit_message
+        run: >
+          COMMIT_MESSAGE =  $( cat commit_message.txt)
 
-    - name: Set Commit Message
-      id: commit_message
-      run: echo "${{  github.event.head.commit.message}}"  > commit_message.txt
+          if   echo  "$COMMIT_MESSAGE"  |  grep -oP      ' Perform : \s*\K[^ ]*
+          '  ;     then
+               echo "Perform task found in commit message"
+          PERFORM_NAME = $ ( echo "$COMMIT_MESSAGE"    |   grep -oP    'Perform
+          : \s*\K[^ ]*'      )
 
-    - name: check commit message
-      id: check_commit_message
-      run: |
-        COMMIT_MESSAGE =  $( cat commit_message.txt)
-        if   echo  "$COMMIT_MESSAGE"  |  grep -oP      ' Perform : \s*\K[^ ]* '  ;     then
-             echo "Perform task found in commit message"
-        PERFORM_NAME = $ ( echo "$COMMIT_MESSAGE"    |   grep -oP    'Perform : \s*\K[^ ]*'      )
-        ##echo "::set-output name = project_name::$PROJECT_NAME"
-        echo  perform_name = $PERFORM_NAME   >> $GITHUB_OUTPUT
-        else
-             echo "Perform not  found in commit mesaage"
-        fi
+          ##echo "::set-output name = project_name::$PROJECT_NAME"
+
+          echo  perform_name = $PERFORM_NAME   >> $GITHUB_OUTPUT
+
+          else
+               echo "Perform not  found in commit mesaage"
+          fi
 
 
-         if   echo  "$COMMIT_MESSAGE"  |  grep -oP      ' Path : \s*\K[^ ]* '  ;     then
-             echo "Perform task found in commit message"
-        PATH = $ ( echo "$COMMIT_MESSAGE"    |   grep -oP    'Path : \s*\K[^ ]*'      )
-        ##echo "::set-output name = module_name::$MODULE_NAME"
-        echo  path = $PATH   >> $GITHUB_ENV
-        else
-             echo "path not  found in commit mesaage"
-         fi
+           if   echo  "$COMMIT_MESSAGE"  |  grep -oP      ' Path : \s*\K[^ ]* '  ;     then
+               echo "Perform task found in commit message"
+          PATH = $ ( echo "$COMMIT_MESSAGE"    |   grep -oP    'Path : \s*\K[^
+          ]*'      )
 
-        -name : execute script for plan
-         run :   |
-             chmod +x  ./.github/script/execute.sh
+          ##echo "::set-output name = module_name::$MODULE_NAME"
 
-             ./.github/script/execute.sh \
-             --session-name "${{ github.actor    }}" \
-             --path_val  "${{    env.path_val    }}"     \
-             --help
-         shell:  bash
+          echo  path = $PATH   >> $GITHUB_ENV
 
-        - name : Cleanup commit message file
-         run     :  rm commit_message.txt
+          else
+               echo "path not  found in commit mesaage"
+           fi
 
-    terraform_apply:
+          -name : execute script for plan
+           run :   |
+               chmod +x  ./.github/script/execute.sh
+
+               ./.github/script/execute.sh \
+               --session-name "${{ github.actor    }}" \
+               --path_val  "${{    env.path_val    }}"     \
+               --help
+           shell:  bash
+
+          - name : Cleanup commit message file
+           run     :  rm commit_message.txt
+  terraform_apply:
     - name: Check if pull request is merged into main
-      # The type of runner that the job will run on
-      if: github.event.pull_request.merged == true && github.ref == 'refs/heads/main'
+      if: >-
+        github.event.pull_request.merged == true && github.ref ==
+        'refs/heads/main'
       run: |
         uses : ./.github/workflows/apply.yml
         echo "Pull request was merged into the main branch"
