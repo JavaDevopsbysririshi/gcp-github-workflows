@@ -1,46 +1,53 @@
+# This is a basic workflow to help you get started with actions
 name: Apply
-'on':
+
+on:
+  # Triggers this workflow on pull_request events only for the "main" branch
   pull_request:
     branches:
-    - main
-  types:
-  - closed
-workflow_call:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+  workflow_call:
+  
 jobs:
+  # This Workflow contains a single job called "terraform-apply"
   terraform_apply-plan:
+    # This specifies the type of runner that the job will run on
     runs-on: ubuntu-latest
-  steps:
-  - name: Checkout code
-    uses: actions/checkout@v2
+  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-  - name: 'Display PR Number PR_NUMBER="${{ github.event.pull_request.number }}"'
-    echo "PR Number: $PR_NUMBER"
+      - name: Get the PR Number
+        id: pr_number
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          echo "PR Number: $PR_NUMBER"
 
-  - name: Assign the PR Number to a Variable 
-      PR_NUMBER="${{ github.event.pull_request.number }}" 
-      echo " Merged pr_number is ::$PR_NUMBER"
+      - name: Assign the PR Number to a Variable
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          echo "Merged PR number is: $PR_NUMBER"
 
-  - name: List Changed Files
-    run:  Use the GitHub API to list changed files 
-     URL=  "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/${{steps.findPr.outputs.pr}}/files"  
-     FILES = $(curl -s -X GET -G $URL | jq -r ".[].filename") 
-    echo "Changed files: "$CHANGED_FILES""
+      - name: List Changed Files
+        run: |
+          FILES=$(curl -s -H "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/${{ steps.pr_number.outputs.pr }}/files" | \
+            jq -r ".[].filename")
+          echo "$FILES" > changed_list.txt
+        shell: bash
 
-  - name: Process Changed Files
-    run: |
-      # Get the list of changed files from the previous step's output
-      CHANGED_FILES="${{ steps.list_files.outputs.changed_files }}"
+      - name: Execute Script for Plan
+        run: |
+          chmod +x ./.github/scripts/execute.sh
+          ./.github/scripts/execute.sh
+          # -- changed_files "${{ env.changed_files }}"
+          # -- help
+        shell: bash
 
-      # Define the base path to remove
-      BASE_PATH="/home/runner/work/repo_name/"
-
-      # Iterate through each file and extract the trimmed path
-      for file_changed in $CHANGED_FILES; do
-        my_var="${REPO_PATH}${file_changed}"
-        echo "The var value is $my_var"
-        trimmed_path="${my_var#$BASE_PATH}"
-        echo "$trimmed_path" >> list.txt
-      done
-
-      cat list.txt
-    shell: bash
+      - name: Clean up commit message file
+        run: rm commit_message.txt
