@@ -1,0 +1,238 @@
+So install Git for Windows first, then run this command:
+
+$ git flow version
+1.12.3 (AVH Gitflow Edition)
+
+
+
+
+bk767@Bala MINGW64 ~
+$ cd C:\Meterials\POC-Git-flow
+bash: cd: C:MeterialsPOC-Git-flow: No such file or directory
+
+bk767@Bala MINGW64 ~
+$ cd C:/
+
+bk767@Bala MINGW64 /c
+$ cd Meterials/POC-Git-flow/
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow
+$ ll
+total 0
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow
+$ git flow init
+Initialized empty Git repository in C:/Meterials/POC-Git-flow/.git/
+No branches exist yet. Base branches must be created now.
+Branch name for production releases: [master]
+Branch name for "next release" development: [develop]
+
+How to name your supporting branch prefixes?
+Feature branches? [feature/]
+Bugfix branches? [bugfix/]
+Release branches? [release/]
+Hotfix branches? [hotfix/]
+Support branches? [support/]
+Version tag prefix? []
+Hooks and filters directory? [C:/Meterials/POC-Git-flow/.git/hooks]
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (develop)
+$ git branch -a
+* develop
+  master
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (develop)
+$ git flow feature start feature_branch
+Switched to a new branch 'feature/feature_branch'
+
+Summary of actions:
+- A new branch 'feature/feature_branch' was created, based on 'develop'
+- You are now on branch 'feature/feature_branch'
+
+Now, start committing on your feature. When done, use:
+
+     git flow feature finish feature_branch
+
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (feature/feature_branch)
+$ git branch -a
+  develop
+* feature/feature_branch
+  master
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (feature/feature_branch)
+$ touch feature.html
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (feature/feature_branch)
+$ ll
+total 0
+-rw-r--r-- 1 bk767 197609 0 Oct 18 11:10 feature.html
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (feature/feature_branch)
+$ git add .
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (feature/feature_branch)
+$ git status
+On branch feature/feature_branch
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   feature.html
+
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (feature/feature_branch)
+$ git commit -m "feature Complete!"
+[feature/feature_branch 9f73c45] feature Complete!
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 feature.html
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (feature/feature_branch)
+$ git reflog
+9f73c45 (HEAD -> feature/feature_branch) HEAD@{0}: commit: feature Complete!
+15b121e (master, develop) HEAD@{1}: checkout: moving from develop to feature/feature_branch
+15b121e (master, develop) HEAD@{2}: checkout: moving from master to develop
+15b121e (master, develop) HEAD@{3}: commit (initial): Initial commit
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (feature/feature_branch)
+$ git flow feature finish feature_branch
+
+Switched to branch 'develop'
+Updating 15b121e..9f73c45
+Fast-forward
+ feature.html | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 feature.html
+Deleted branch feature/feature_branch (was 9f73c45).
+
+Summary of actions:
+- The feature branch 'feature/feature_branch' was merged into 'develop'
+- Feature branch 'feature/feature_branch' has been locally deleted
+- You are now on branch 'develop'
+
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (develop)
+$ git branch -a
+* develop
+  master
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (develop)
+$ git tag -a
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (develop)
+$ git tag -l
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (develop)
+$ git flow release start '0.1.0'
+
+Switched to a new branch 'release/0.1.0'
+
+Summary of actions:
+- A new branch 'release/0.1.0' was created, based on 'develop'
+- You are now on branch 'release/0.1.0'
+
+Follow-up actions:
+- Bump the version number now!
+- Start committing last-minute fixes in preparing your release
+- When done, run:
+
+     git flow release finish '0.1.0'
+
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (release/0.1.0)
+$   git branch -a
+  develop
+  master
+* release/0.1.0
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (release/0.1.0)
+$ touch release-fix.html
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (release/0.1.0)
+$ git status
+On branch release/0.1.0
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        release-fix.html
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (release/0.1.0)
+$ git add .
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (release/0.1.0)
+$ git status
+On branch release/0.1.0
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   release-fix.html
+
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (release/0.1.0)
+$ git commit -m "release fixed"
+[release/0.1.0 d8f02f9] release fixed
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 release-fix.html
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (release/0.1.0)
+$ git flow release finish '0.1.0'
+Switched to branch 'master'
+Merge made by the 'ort' strategy.
+ feature.html     | 0
+ release-fix.html | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 feature.html
+ create mode 100644 release-fix.html
+Already on 'master'
+Switched to branch 'develop'
+Merge made by the 'ort' strategy.
+ release-fix.html | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 release-fix.html
+Deleted branch release/0.1.0 (was d8f02f9).
+
+Summary of actions:
+- Release branch 'release/0.1.0' has been merged into 'master'
+- The release was tagged '0.1.0'
+- Release tag '0.1.0' has been back-merged into 'develop'
+- Release branch 'release/0.1.0' has been locally deleted
+- You are now on branch 'develop'
+
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (develop)
+$ git branch -a
+* develop
+  master
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (develop)
+$ ls
+feature.html  release-fix.html
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (develop)
+$ ll
+total 0
+-rw-r--r-- 1 bk767 197609 0 Oct 18 11:40 feature.html
+-rw-r--r-- 1 bk767 197609 0 Oct 18 11:43 release-fix.html
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (develop)
+$ git checkout master
+Switched to branch 'master'
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (master)
+$ git branch -a
+  develop
+* master
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (master)
+$ ls
+feature.html  release-fix.html
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (master)
+$ ll
+total 0
+-rw-r--r-- 1 bk767 197609 0 Oct 18 11:40 feature.html
+-rw-r--r-- 1 bk767 197609 0 Oct 18 11:43 release-fix.html
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (master)
+$ git tag -l
+0.1.0
+
+bk767@Bala MINGW64 /c/Meterials/POC-Git-flow (master)
+$
