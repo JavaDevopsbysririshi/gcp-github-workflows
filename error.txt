@@ -1,3 +1,11 @@
+The cause of this drift is the introduction of a new IAM instance profile resource with the specified attributes. This typically occurs when changes are made to your infrastructure as code (IaC) scripts (e.g., Terraform, AWS CloudFormation) or when the desired state of your infrastructure is updated.
+
+To resolve the drift, you should review your IaC scripts or configuration and understand why a new IAM instance profile is being created. If the creation of a new IAM instance profile is intentional, you can proceed with applying the changes. If it is unintentional, you may need to adjust your IaC scripts to align with your desired state and prevent the unnecessary creation of resources.
+
+
+
+===================================================
+
 The primary cause of the drift and the need for a new resource is the change in the build_number trigger value. This could be intentional, perhaps indicating a desire to create a new resource due to a change in the build number. Alternatively, it might be an unintended change that needs investigation.
 
 To address this drift, you should review the reason behind the change in the build number and ensure that it aligns with your infrastructure deployment plan. If the change is intentional, you can proceed with the creation of the new resource. If it's unintentional, you might need to update your infrastructure-as-code (IaC) scripts or configuration to prevent unnecessary resource recreation or investigate why the build number has changed unexpectedly.
