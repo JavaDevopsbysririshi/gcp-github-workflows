@@ -1,12 +1,13 @@
-he output you've provided seems to be related to Terraform, a tool for infrastructure as code (IaC). 
-This output is part of the plan phase, and it indicates a conflict or a change that requires the creation of a new resource. Here's a breakdown of the information:
+The primary cause of the drift and the need for a new resource is the change in the build_number trigger value. This could be intentional, perhaps indicating a desire to create a new resource due to a change in the build number. Alternatively, it might be an unintended change that needs investigation.
 
-id: The resource with the ID "3437855345434422" is currently set to <computed> and requires a new resource to be created.
+To address this drift, you should review the reason behind the change in the build number and ensure that it aligns with your infrastructure deployment plan. If the change is intentional, you can proceed with the creation of the new resource. If it's unintentional, you might need to update your infrastructure-as-code (IaC) scripts or configuration to prevent unnecessary resource recreation or investigate why the build number has changed unexpectedly.
 
-triggers.%: The number of triggers for this resource is the same before and after the change, indicated by "1" => "1". This means the number of triggers hasn't changed.
 
-triggers.build_number: The value of the "build_number" trigger has changed from "2023-11-22T13:12:27Z" to "2023-12-08T08:15:04Z". This change is marked as "forces new resources," which means it triggers the creation of a new resource.
+=========================================================================
 
-In summary, the conflict or the need for a new resource is due to the change in the "build_number" 
-trigger value. Terraform detects this change and recommends creating a new resource to reflect the updated configuration.
-This could be intentional, or you might want to review why the "build_number" trigger value is changing and whether it aligns with your desired infrastructure state.
+The cause of this drift is that the tags that were initially set with values have been modified or removed, resulting in a mismatch between the desired (expected) and actual state of the IAM role's tags.
+
+To resolve this drift, you may want to update your infrastructure-as-code (IaC) scripts (such as Terraform, AWS CloudFormation, etc.) to reflect the desired tags for the IAM role. Alternatively, you can manually update the tags on the AWS IAM role to match the desired state. This will bring the actual configuration back in line with your intended configuration.
+
+
+
