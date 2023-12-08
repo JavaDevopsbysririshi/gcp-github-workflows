@@ -1,3 +1,9 @@
+The cause of this drift is that the CloudWatch Events rule is being updated to be disabled (is_enabled set to false). This change might be intentional, for example, if you want to temporarily disable the rule for maintenance or debugging purposes. Alternatively, it could be unintentional, and you might want to investigate why the change occurred.
+
+===========================================
+
+IAM-Foudation
+-------------------------
 The cause of this drift is the introduction of a new IAM instance profile resource with the specified attributes. This typically occurs when changes are made to your infrastructure as code (IaC) scripts (e.g., Terraform, AWS CloudFormation) or when the desired state of your infrastructure is updated.
 
 To resolve the drift, you should review your IaC scripts or configuration and understand why a new IAM instance profile is being created. If the creation of a new IAM instance profile is intentional, you can proceed with applying the changes. If it is unintentional, you may need to adjust your IaC scripts to align with your desired state and prevent the unnecessary creation of resources.
