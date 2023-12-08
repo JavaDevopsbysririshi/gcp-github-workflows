@@ -1,0 +1,12 @@
+he output you've provided seems to be related to Terraform, a tool for infrastructure as code (IaC). 
+This output is part of the plan phase, and it indicates a conflict or a change that requires the creation of a new resource. Here's a breakdown of the information:
+
+id: The resource with the ID "3437855345434422" is currently set to <computed> and requires a new resource to be created.
+
+triggers.%: The number of triggers for this resource is the same before and after the change, indicated by "1" => "1". This means the number of triggers hasn't changed.
+
+triggers.build_number: The value of the "build_number" trigger has changed from "2023-11-22T13:12:27Z" to "2023-12-08T08:15:04Z". This change is marked as "forces new resources," which means it triggers the creation of a new resource.
+
+In summary, the conflict or the need for a new resource is due to the change in the "build_number" 
+trigger value. Terraform detects this change and recommends creating a new resource to reflect the updated configuration.
+This could be intentional, or you might want to review why the "build_number" trigger value is changing and whether it aligns with your desired infrastructure state.
