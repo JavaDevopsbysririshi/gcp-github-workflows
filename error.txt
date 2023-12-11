@@ -1,3 +1,35 @@
+
+aws_ec2_transit_gateway_vpc_attachment_accepter
+  =============================================================
+  Automatic tagging 
+  =============================================================
+  // new CloudWatch Events rule is being added . The Events rule is intentional/ unintentional, ensure it aligns with your design and apply the changes.
+  + aws_cloudwatch_event_rule_autoimatic-tagging-ec2-eventrule
+  
+  //  to  identify any intended/ unintended resource creation. Ensure that the resource definition matches your intended configuration
+  + aws_cloudwatch_event_target_autoimatic-tagging-ec2-target
+  
+  
+  //aws_lambda_function resource is being created. Ensure that the addition aligns with your intentions and infrastructure 		requirements. If it's unintentional, correct your Terraform code accordingly
+    + aws_lambda_function.automatic-tagging-ec2				
+  
+  
+ //new AWS Step Functions state machine resource is being added . to identify any intended/ unintended resource creation. Ensure that the resource definition matches your intended
+ configuration.
+  + aws_sfn_state_machine.ce_automatictagging-step
+  
+  
+  
+  ========================================================
+  
+  Backup-Foundation
+  ========================================================
+
+
+
+
+
+
 The cause of this drift is that the CloudWatch Events rule is being updated to be disabled (is_enabled set to false). This change might be intentional, for example, if you want to temporarily disable the rule for maintenance or debugging purposes. Alternatively, it could be unintentional, and you might want to investigate why the change occurred.
 
 ===========================================
